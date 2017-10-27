@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const {getQueryString} = require('../public/javascripts/getQueryString.js');
+const getQueryString = require('../public/javascripts/getQueryString.js').getQueryString;
 
 describe('The getQueryString class', function () {
   var url = 'http://localhost:3000/?id=10&name=Bob&state=Wisconsin&company=NM';
