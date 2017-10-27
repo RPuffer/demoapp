@@ -36,11 +36,6 @@ jobs:
       # run tests!
       - run: npm test
       
-      
-deployment:
-  production:
-    branch: master
-      commands:
-        - $DOCKER_HUB_TRIGGER
-
+      # deploy docker hub build
+      - run: $DOCKER_HUB_TRIGGER
 
