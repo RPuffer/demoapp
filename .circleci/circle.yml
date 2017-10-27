@@ -36,8 +36,9 @@ jobs:
       # run tests!
       - run: npm test
   deployment:
-    branch: master
-      commands:
-        - $DOCKER_HUB_TRIGGER
+    hub:
+      branch: master
+        commands:
+          - $DOCKER_HUB_TRIGGER
 
 
