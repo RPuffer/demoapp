@@ -37,5 +37,5 @@ jobs:
       - run: npm test
       
       # deploy docker hub build
-      - run: $DOCKER_HUB_TRIGGER
+      - run: curl -H "Content-Type: application/json" --data '{"build": true}' -X https://registry.hub.docker.com/u/rynepuffer/node-demoapp/trigger/512abd90-a78a-43d5-9914-db6e2cc7e552/
 
