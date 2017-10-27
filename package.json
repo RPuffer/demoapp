@@ -1,0 +1,42 @@
+{
+  "name": "demoapp",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "prestart": "node ./bin/startMsg",
+    "start": "npm-run-all --parallel startServer lint:watch",
+    "startServer": "node ./bin/www",
+    "precluster": "node ./bin/startMsg",
+    "cluster": "node ./bin/cluster",
+    "load": "loadtest -c 150 -t 10 http://localhost:3000",
+    "crash": "loadtest -c 400 -t 10 http://localhost:3000",
+    "test": "npm-run-all --parallel jasmine lint",
+    "jasmine": "node ./bin/test",
+    "lint": "esw public/javascripts/ routes/ --color",
+    "lint:watch": "npm run lint -- --watch"
+  },
+  "dependencies": {
+    "body-parser": "~1.18.2",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "~4.15.5",
+    "lodash": "^4.17.4",
+    "morgan": "~1.9.0",
+    "mysql": "^2.15.0",
+    "pug": "2.0.0-beta11",
+    "serve-favicon": "~2.4.5",
+    "promise": "^8.0.1"
+  },
+  "devDependencies": {
+    "chalk": "^2.1.0",
+    "eslint": "^3.19.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-watch": "^2.1.14",
+    "jasmine": "^2.8.0",
+    "jasmine-console-reporter": "^2.0.1",
+    "jsdom": "9.8.0",
+    "npm-run-all": "3.1.1",
+    "open": "0.0.5",
+    "loadtest": "^2.3.0"
+  }
+}

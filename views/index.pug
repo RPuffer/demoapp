@@ -1,0 +1,68 @@
+doctype html
+html(lang='en')
+  head
+    script(type='text/javascript', src='/javascripts/getQueryString.js')
+    script(type='text/javascript').
+      var onError = function () {
+        var error = getQueryString('err', window.location.href);
+        if(error == "InvalidUser"){
+          alert("Invalid User");
+          window.location.replace(window.location.href.split('?')[0])
+        }
+        //- else if(error){
+        //-   alert(`Error: ${error}`);
+        //-   window.location.replace(window.location.href.split('?')[0])
+        //- }
+      };
+      onError();
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body(class='container')
+    div(id="top")
+      canvas(id='theCanvas2')      
+    img(src='https://nodejs.org/static/images/logo.svg')
+    div.table(id='headerTable')
+      h1 Add User
+      form(action='/', method='post')
+        div
+          | ID:
+          br
+          input(type='number', name='id')
+        div
+          | Name: 
+          br
+          input(type='text', name='name')
+        div
+          | State: 
+          br
+          input(type='text', name='state')
+        div
+          | Company :
+          br
+          input(type='text', name='company')
+        div
+          br
+          input(type='submit', value='Submit')
+    table
+      h2 
+      thead
+        th 
+          h2 USERS
+        th Id
+        th Name
+        th State
+        th Company
+      tbody#users
+      for data in rows
+        tr
+          td
+            form(action='/deleteUser', method='post')
+              button(type='submit', name='id', value=data.unique_id) Remove
+          td=data.id
+          td=data.name
+          td=data.state
+          td=data.company
+    div(id="footer")
+      canvas(id='theCanvas')
+  script(type='text/javascript', src='/javascripts/drawSquare.js')
+ 
+    

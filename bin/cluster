@@ -1,0 +1,69 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+ 
+ const os = require('os');
+ const cluster = require('cluster');
+ const chalk = require('chalk');
+ 
+ /**
+ * Fork new process for all available cpu cores
+ */
+ 
+ if (cluster.isMaster) {
+ 
+/** 
+* Check number of cpu cores
+*/
+    const cpus = os.cpus().length;
+    
+/**
+* Fork process for each cpu core
+*/
+    console.log(`Forking for ${cpus} CPUs`);
+    for (let i = 0; i < cpus; i++) {
+        cluster.fork();
+    }    
+    
+/**
+* If a worker exits - fork a new one
+*/
+    cluster.on('exit', (worker, code, signal) => {
+        if(code !== 0 && !worker.exitedAfterDisconnect) {
+            console.log(`Worker ${worker.id} crashed.\n` + 
+                        'Starting a new worker...');
+            cluster.fork();
+        }
+    });
+    
+/**
+* Restart all workers 
+*/
+    process.stdin.on('data', (data) => {
+        const workers = Object.values(cluster.workers);
+        
+        const restartWorker = (workerIndex) => {
+            const worker = workers[workerIndex];            
+            if (!worker) return;
+            
+            worker.on('exit', () => {
+                if (!worker.exitedAfterDisconnect) return;
+                
+                console.log(chalk.red(`Exited process ${worker.process.pid}`));
+                cluster.fork().on('listening', () => {
+                    restartWorker(workerIndex + 1);
+                });
+            });
+            
+            worker.disconnect();
+        };
+        
+        restartWorker(0);
+    });
+    
+    
+} else {
+    require('./www');
+}
