@@ -1,4 +1,5 @@
 # Ignore node modules 
-
 node_modules
 
+# Ignore query test that will fail if no mysql server exists
+query.spec.js
