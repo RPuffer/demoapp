@@ -36,15 +36,9 @@ jobs:
       # run tests!
       - run: npm test
       
-  
-  deploy:
-    docker:
-      # specify the version you desire here
-      - image: node:8.7.0
-
-    steps:
-      - checkout
-      
       # deploy docker hub build
-      - run: curl -H "Content-Type: application/json" --data '{"build": true}' -X https://registry.hub.docker.com/u/rynepuffer/node-demoapp/trigger/512abd90-a78a-43d5-9914-db6e2cc7e552/
+      - deploy: 
+        name: DockerHub Deploy
+        command: |
+          $DOCKER_HUB_TRIGGER
       
